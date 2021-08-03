@@ -1,0 +1,99 @@
+/*
+Largest Rectangle in Histogram
+Problem Description
+
+Given an array of integers A .
+
+A represents a histogram i.e A[i] denotes height of the ith histogram's bar. Width of each bar is 1.
+
+Find the area of the largest rectangle formed by the histogram.
+
+
+
+Problem Constraints
+1 <= |A| <= 100000
+
+1 <= A[i] <= 1000000000
+
+
+
+Input Format
+The only argument given is the integer array A.
+
+
+
+Output Format
+Return the area of largest rectangle in the histogram.
+
+
+
+Example Input
+Input 1:
+
+ A = [2, 1, 5, 6, 2, 3]
+Input 2:
+
+ A = [2]
+
+
+Example Output
+Output 1:
+
+ 10
+Output 2:
+
+ 2
+
+
+Example Explanation
+Explanation 1:
+
+The largest rectangle has area = 10 unit. Formed by A[3] to A[4].
+Explanation 2:
+
+Largest rectangle has area 2.
+*/
+
+
+vector<int> findNSEOL(vector<int> &A) {
+    int n= A.size();
+    stack<int> s;
+    vector<int> ans;
+    for(int i=0; i<A.size(); i++){
+        while(!s.empty() and A[s.top()] >= A[i])
+            s.pop();
+        if(s.empty())
+            ans.push_back(-1);
+        if(!s.empty())
+            ans.push_back(s.top());
+        s.push(i);
+    }
+    return ans;
+}
+vector<int> findNSEOR(vector<int> &A) {
+    int n= A.size();
+    stack<int> s;
+    vector<int> ans;
+    for(int i=n-1; i>=0; i--){
+        while(!s.empty() and A[s.top()] >= A[i])
+            s.pop();
+        if(s.empty())
+            ans.push_back(n);
+        if(!s.empty())
+            ans.push_back(s.top());
+        s.push(i);
+    }
+    reverse(ans.begin(), ans.end());
+    return ans;
+}
+int Solution::largestRectangleArea(vector<int> &A) {
+    vector<int> l = findNSEOL(A);   //l--smaller element on left
+    vector<int> r = findNSEOR(A); //r--smaller element on right
+    long long int maxArea = 0;
+    for(int i=0; i<A.size(); i++){
+        long long int width = r[i] - l[i] -1; // r-l-1  
+        long long int currarea = 1ll*width * A[i];
+        maxArea = max(maxArea,currarea);
+    }
+    return (int)maxArea;
+}
