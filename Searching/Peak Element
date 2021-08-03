@@ -1,0 +1,26 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int peakElementBinarySearch(int nums[],int start,int end,int n){
+    int mid=(start+end)/2;
+
+    if(mid==0 && nums[mid]>=nums[mid+1])//corner case in the beginning 
+        return nums[mid];
+    if(mid==n-1 &&  nums[mid]>=nums[mid-1])//corner case in the end
+        return nums[mid];
+    if(nums[mid]>=nums[mid+1] && nums[mid]>=nums[mid-1])//test cse in the middle of the array return first encountered PEAK ELEMENT
+        return nums[mid];
+    else if( mid<n-1 && nums[mid]<nums[mid+1])
+        return peakElementBinarySearch(nums,mid+1,end,n);
+    else      
+        return peakElementBinarySearch(nums,start,mid-1,n);
+}
+
+int main(){
+    int nums[]={1, 3, 20, 4, 1, 0  };
+    int lengthNums=sizeof(nums)/sizeof(nums[0]);
+    int peakElement=peakElementBinarySearch(nums,0,lengthNums-1,lengthNums);
+    cout<<"peak element in the array is" <<peakElement<<endl;
+
+    return 0;
+}
