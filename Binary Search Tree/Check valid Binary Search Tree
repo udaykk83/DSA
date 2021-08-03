@@ -1,0 +1,14 @@
+ bool CheckBSTHelper(TreeNode* root, TreeNode* mini, TreeNode* maxi){
+        if(root == NULL)
+                return true;
+        if( (mini != NULL and root->val <= mini->val) or (maxi != NULL and root->val >= maxi->val) )
+            return false;           
+        return CheckBSTHelper(root->left,mini,root) and CheckBSTHelper(root->right,root,maxi); 
+    }
+    bool isValidBST(TreeNode* root) {
+        if(root == NULL)
+            return true;
+        int mini =  INT_MIN;
+        int maxi = INT_MAX;
+        return CheckBSTHelper(root,NULL,NULL);
+    }
