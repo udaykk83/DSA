@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void formSpiralMatrix(int a[], int mat[3][6]){
+    int i,index=0;
+    int top=0,left=0;
+    int bottom=2,right=5;
+    while(top<=bottom && left<=right){
+
+        for(i=left;i<=right;i++){
+            mat[top][i]=a[index++];
+        }
+        top++;
+        for(i=top;i<=bottom;i++){
+            mat[i][right]=a[index++];
+        }
+        right--;
+        if(top<bottom){
+                for(i=right;i>=left;i--)
+                    mat[bottom][i]=a[index++];
+                bottom--;
+                
+        }
+        if(left<right){
+                for(i=bottom;i>=top;i--)
+                    mat[i][left]=a[index++];
+                left++;
+                
+        }
+    }
+}
+int main() 
+{ 
+    int arr[] = { 1, 2, 3, 4, 5, 6, 
+            7, 8, 9, 10, 11, 12, 
+            13, 14, 15, 16, 17, 18 }; 
+    int R=3,C=6;
+    int mat[3][6]; 
+    
+    formSpiralMatrix(arr, mat); 
+
+    for (int i = 0; i < 3; i++) { 
+        for (int j = 0; j < 6; j++) 
+            cout << mat[i][j] << " "; 
+        cout << '\n'; 
+    } 
+    return 0; 
+} 
