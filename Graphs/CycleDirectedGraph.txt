@@ -1,0 +1,39 @@
+bool cycleUtilDFS(vector<int> adj[], vector<int> &vis, vector<int> &dfsPath, int node){
+    vis[node] = 1;
+    dfsPath[node] = 1;
+    for(auto it : adj[node]){
+        if(!vis[it]){
+            if(cycleUtilDFS(adj, vis, dfsPath, it)){
+                return true;
+            }
+        }
+        else if(dfsPath[it] == 1){
+            return true;
+        }
+    }
+    dfsPath[node] = 0;
+    return false;
+}
+
+bool checkCyclePresent(vector<int> adj[], int V){
+    vector<int> vis(V+1, 0);
+    vector<int> dfsPath(V+1, 0);
+    for(int i = 1; i<=V; i++){
+        if(!vis[i]){
+            if(cycleUtilDFS(adj, vis, dfsPath, i)){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+int Solution::solve(int A, vector<vector<int> > &B) {
+    vector<int > adj[A+1];
+    for(int i = 0; i<B.size(); i++){
+        int  u = B[i][0];
+        int v = B[i][1];
+        adj[u].push_back(v);
+    }
+    return checkCyclePresent(adj, A);
+}

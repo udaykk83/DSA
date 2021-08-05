@@ -1,0 +1,39 @@
+bool dfsBipartiteUtil(vector<int> adj[], vector<int> &color, int node){
+    if(color[node] == -1)
+        color[node] = 1;
+    for(auto it : adj[node]){
+        if(color[it] == -1){
+            color[it] = 1 - color[node];
+            if( ! dfsBipartiteUtil(adj, color, it)){
+                return false;
+            }
+        }
+        else if(color[it] == color[node])
+            return false;
+    }
+    return true;
+}
+
+
+bool isBipartite(vector<int> adj[], int V){
+    vector<int> color(V,-1);
+    for(int i = 0; i<V; i++){
+        if(color[i] == -1){
+            if( ! dfsBipartiteUtil(adj, color, i)){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+int Solution::solve(int A, vector<vector<int> > &B) {
+    vector<int> adj[A];
+    for(int i =0; i<B.size(); i++){
+        int  u = B[i][0];
+        int v = B[i][1];
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    return isBipartite(adj, A);
+}
